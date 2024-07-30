@@ -29,7 +29,11 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+
+    /* Use custom test attribute */
+    testIdAttribute: "data-test-label",
   },
+  timeout: 120 * 1000,
 
   /* Configure projects for major browsers */
   projects: [
@@ -39,9 +43,9 @@ export default defineConfig({
     },
 
     /* Test against mobile viewports. */
-    // {
-    //   name: "Mobile Chrome",
-    //   use: { ...devices["Pixel 5"] },
-    // },
+    {
+      name: "Mobile Chrome",
+      use: { ...devices["Pixel 5"] },
+    },
   ],
 });

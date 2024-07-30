@@ -4,7 +4,7 @@ import * as cheerio from "cheerio";
 import { readFile } from "fs/promises";
 import path from "path";
 
-import { type AllPostsMetadata } from "../types";
+import { type PostsMetadataByAuthor, type PostMetadata } from "../types";
 
 const __dirname = import.meta.dirname;
 
@@ -12,6 +12,10 @@ const getPostMetadata = async (postUrl: string) => {
   const response = await gotScraping.get({
     url: `https://www.freecodecamp.org/${postUrl}`,
   });
+
+  if (!response.ok || response.statusCode !== 200) {
+    throw new Error(`Failed to fetch ${postUrl}`);
+  }
 
   const html = response.body;
 
@@ -33,19 +37,32 @@ const getPostMetadata = async (postUrl: string) => {
   return { metadata, html };
 };
 
-const getOriginalPostsMetadata = async () => {
+const getExpectedMetadata = async (
+  author: string
+): Promise<Record<string, PostMetadata>> => {
+  const username = author.match(
+    /(?<=https:\/\/www.freecodecamp.org\/news\/author\/).*(?=\/)/
+  );
+
   const metadataJson = await readFile(
-    path.resolve(__dirname, "../data/all-posts-metadata.json"),
+    path.resolve(__dirname, `../posts-metadata-by-author/${username}.json`),
     { encoding: "utf8" }
   );
-  return JSON.parse(metadataJson);
+  const metadata: PostsMetadataByAuthor = JSON.parse(metadataJson);
+
+  // The metadata in the file is grouped under a key, which is the author URL.
+  // Extract the nested metadata here to make the tests a little easier to read.
+  return metadata[author];
 };
 
-const ORIGINAL_METADATA: AllPostsMetadata = await getOriginalPostsMetadata();
 // Change this value when testing posts by author
-const TARGET_AUTHOR = "https://www.freecodecamp.org/news/author/_staticvoid/";
-const POST_URLS = Object.keys(ORIGINAL_METADATA[TARGET_AUTHOR]);
+const AUTHOR = "https://www.freecodecamp.org/news/author/kris/";
+const EXPECTED_POSTS_METADATA = await getExpectedMetadata(AUTHOR);
+const POST_URLS = Object.keys(EXPECTED_POSTS_METADATA);
 
+// ------------------------------
+// Assertion helpers
+// ------------------------------
 const areObjectsEqual = (obj1, obj2) => {
   if (Object.keys(obj1).length !== Object.keys(obj2).length) {
     return false;
@@ -64,10 +81,11 @@ const areObjectsEqual = (obj1, obj2) => {
 
 describe("Posts metadata", () => {
   it("should have correct metadata", async () => {
-    for (const post of POST_URLS) {
-      const { metadata: expectedMetadata } =
-        ORIGINAL_METADATA[TARGET_AUTHOR][post];
-      const { metadata } = await getPostMetadata(post);
+    for (const url of POST_URLS) {
+      console.log("URL:", url);
+
+      const { metadata: expectedMetadata } = EXPECTED_POSTS_METADATA[url];
+      const { metadata } = await getPostMetadata(url);
 
       expect(metadata.length).toEqual(expectedMetadata.length);
 
@@ -89,6 +107,11 @@ describe("Posts metadata", () => {
             );
           }
         );
+
+        // This is for debugging
+        if (!elementExists) {
+          console.log("element:", element);
+        }
 
         expect(elementExists).toBe(true);
       }

@@ -66,6 +66,8 @@ const getPostsMetadataByAuthor = async (authorUrl: string) => {
       ),
       JSON.stringify(data)
     );
+
+    console.log("Author posts downloaded.");
   }
 };
 
@@ -88,8 +90,12 @@ const getAllPostsMetadata = async () => {
     await getPostsMetadataByAuthor(author);
   }
 
-  console.log("Get all posts metadata completed.");
+  console.log("All posts metadata downloaded.");
 };
 
 // --------- Execution ---------
 await getAllPostsMetadata();
+
+// await getPostsMetadataByAuthor(
+//   "https://www.freecodecamp.org/news/author/kris/"
+// );

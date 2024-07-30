@@ -31,50 +31,18 @@ export type PostMetadata = { metadata: Metadata; html: string };
  *           { tagName, attributes, scriptContent },
  *         ],
  *         html: "<!DOCTYPE html><html lang="en">..."
+ *       },
+ *       "path/to/post-two": {
+ *         metadata: [
+ *           { tagName, attributes },
+ *           { tagName, attributes, scriptContent },
+ *         ],
+ *         html: "<!DOCTYPE html><html lang="en">..."
  *       }
  *     }
  *   }
  * }
  */
-export type PostsMetadataByAuthor = Record<string, PostMetadata>;
-
-/**
- * Example:
- * {
- *   {
- *     "path/to/author-one": {
- *       "path/to/post-one": {
- *         metadata: [
- *           { tagName, attributes },
- *           { tagName, attributes, scriptContent },
- *         ],
- *         html: "<!DOCTYPE html><html lang="en">..."
- *       },
- *       "path/to/post-two": {
- *         metadata: [
- *           { tagName, attributes },
- *           { tagName, attributes, scriptContent },
- *         ],
- *         html: "<!DOCTYPE html><html lang="en">..."
- *       },
- *     },
- *     "path/to/author-two": {
- *       "path/to/post-one": {
- *         metadata: [
- *           { tagName, attributes },
- *           { tagName, attributes, scriptContent },
- *         ],
- *         html: "<!DOCTYPE html><html lang="en">..."
- *       },
- *       "path/to/post-two": {
- *         metadata: [
- *           { tagName, attributes },
- *           { tagName, attributes, scriptContent },
- *         ],
- *         html: "<!DOCTYPE html><html lang="en">..."
- *       },
- *     }
- *   }
- * }
- */
-export type AllPostsMetadata = Record<string, PostsMetadataByAuthor>;
+export type PostsMetadataByAuthor = {
+  [authorUrl: string]: Record<string, PostMetadata>;
+};

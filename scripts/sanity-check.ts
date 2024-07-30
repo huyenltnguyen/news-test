@@ -1,8 +1,6 @@
 import { writeFile, readFile, readdir } from "fs/promises";
 import path from "path";
 
-import { type AllPostsMetadata } from "../types";
-
 const __dirname = import.meta.dirname;
 
 const createSample = async () => {
