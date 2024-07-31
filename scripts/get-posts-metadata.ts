@@ -1,4 +1,4 @@
-import { writeFile, readFile } from "fs/promises";
+import { readFile } from "fs/promises";
 import path from "path";
 
 import { getPostsMetadataByAuthor } from "../utils";

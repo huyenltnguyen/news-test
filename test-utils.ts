@@ -8,11 +8,11 @@ const __dirname = import.meta.dirname;
 
 export const getExpectedMetadata = async (
   authorUrl: string
-): Promise<Record<string, PostMetadata>> => {
+): Promise<{ [postUrl: string]: PostMetadata }> => {
   const username = getUsername(authorUrl);
 
   const metadataJson = await readFile(
-    path.resolve(__dirname, `../posts-metadata-by-author/${username}.json`),
+    path.resolve(__dirname, `./posts-metadata-by-author/${username}.json`),
     { encoding: "utf8" }
   );
   const metadata: PostsMetadataByAuthor = JSON.parse(metadataJson);

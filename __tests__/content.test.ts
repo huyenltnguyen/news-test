@@ -59,93 +59,63 @@ const getTweetButton = (html: string) => {
 // This test is probably flaky / can have false negatives since it compares strings
 // rather than querying the elements and looking for their attributes.
 describe("Posts content", () => {
-  it("should match the original heading", async () => {
+  it("should match the original heading", () => {
     for (const url of EXPECTED_POST_URLS) {
-      console.log("URL:", url);
-
       const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
       const { html } = postsMetadata[url];
 
       expect(getHeading(html)).toBeTruthy();
       expect(getHeading(html)).toEqual(getHeading(expectedHtml));
     }
-
-    // Sanity check to ensure that at least one assertion was called, since the test involves async operations.
-    expect.hasAssertions();
   });
 
-  it("should match the original author card", async () => {
+  it("should match the original author card", () => {
     for (const url of EXPECTED_POST_URLS) {
-      console.log("URL:", url);
-
       const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
       const { html } = postsMetadata[url];
 
       expect(getAuthorCard(html)).toBeTruthy();
       expect(getAuthorCard(html)).toEqual(getAuthorCard(expectedHtml));
     }
-
-    // Sanity check to ensure that at least one assertion was called, since the test involves async operations.
-    expect.hasAssertions();
   });
 
-  it("should match the original author link", async () => {
+  it("should match the original author link", () => {
     for (const url of EXPECTED_POST_URLS) {
-      console.log("URL:", url);
-
       const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
       const { html } = postsMetadata[url];
 
       expect(getAuthorLink(html)).toBeTruthy();
       expect(getAuthorLink(html)).toEqual(getAuthorLink(expectedHtml));
     }
-
-    // Sanity check to ensure that at least one assertion was called, since the test involves async operations.
-    expect.hasAssertions();
   });
 
-  it("should match the original content", async () => {
+  it("should match the original content", () => {
     for (const url of EXPECTED_POST_URLS) {
-      console.log("URL:", url);
-
       const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
       const { html } = postsMetadata[url];
 
       expect(getContent(html)).toBeTruthy();
       expect(getContent(html)).toEqual(getContent(expectedHtml));
     }
-
-    // Sanity check to ensure that at least one assertion was called, since the test involves async operations.
-    expect.hasAssertions();
   });
 
-  it("should match the original feature image", async () => {
+  it("should match the original feature image", () => {
     for (const url of EXPECTED_POST_URLS) {
-      console.log("URL:", url);
-
       const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
       const { html } = postsMetadata[url];
 
       expect(getFeatureImage(html)).toBeTruthy();
       expect(getFeatureImage(html)).toEqual(getFeatureImage(expectedHtml));
     }
-
-    // Sanity check to ensure that at least one assertion was called, since the test involves async operations.
-    expect.hasAssertions();
   });
 
-  it("should match the original tweet button", async () => {
+  it("should match the original tweet button", () => {
     for (const url of EXPECTED_POST_URLS) {
-      console.log("URL:", url);
-
       const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
       const { html } = postsMetadata[url];
 
       expect(getTweetButton(html)).toBeTruthy();
       expect(getTweetButton(html)).toEqual(getTweetButton(expectedHtml));
     }
-
-    // Sanity check to ensure that at least one assertion was called, since the test involves async operations.
-    expect.hasAssertions();
   });
 });
