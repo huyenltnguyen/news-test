@@ -27,5 +27,8 @@ jobs:
       - name: Install playwright dependencies
         run: npx playwright install --with-deps
 
+      - name: Confirm author
+        run: echo "Author is $AUTHOR"
+
       - name: Run tests
         run: pnpm e2e

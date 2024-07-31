@@ -1,5 +1,6 @@
 import { readFile } from "fs/promises";
 import path from "path";
+import "dotenv/config";
 
 import { type PostsMetadataByAuthor, type PostMetadata } from "./types";
 import { getUsername } from "./utils";
@@ -23,6 +24,7 @@ export const getExpectedMetadata = async (
 };
 
 // Change this value when testing posts by author
-export const AUTHOR = "https://www.freecodecamp.org/news/author/kris/";
+export const AUTHOR =
+  process.env.AUTHOR || "https://www.freecodecamp.org/news/author/quincy/";
 export const EXPECTED_POSTS_METADATA = await getExpectedMetadata(AUTHOR);
 export const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_METADATA);

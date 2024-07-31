@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - "main"
+env:
+  AUTHOR: ${{ vars.AUTHOR }}
 
 jobs:
   test:
@@ -23,6 +25,9 @@ jobs:
         with:
           version: 9
           run_install: true
+
+      - name: Confirm author
+        run: echo "Author is $AUTHOR"
 
       - name: Run tests
         run: pnpm test
