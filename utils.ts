@@ -11,6 +11,23 @@ import {
 
 const __dirname = import.meta.dirname;
 
+export const getUsername = (authorUrl: string) => {
+  // Rename the username so that we can save the data into separate files.
+  if (authorUrl === "https://www.freecodecamp.org/news/author/ihechikara/") {
+    return "ihechikara-ghost";
+  }
+
+  if (authorUrl === "https://www.freecodecamp.org/news/author/Ihechikara/") {
+    return "ihechikara-hashnode";
+  }
+
+  const match = authorUrl.match(
+    /(?<=https:\/\/www.freecodecamp.org\/news\/author\/).*(?=\/)/
+  );
+
+  return match ? match[0] : "";
+};
+
 export const getPostMetadata = async (
   postUrl: string
 ): Promise<{ [postUrl: string]: PostMetadata }> => {
@@ -60,9 +77,7 @@ export const getPostsMetadataByAuthor = async ({
   const promises = postUrls.map((url) => getPostMetadata(url));
   const postsMetadata = await Promise.all(promises);
 
-  const username = authorUrl.match(
-    /(?<=https:\/\/www.freecodecamp.org\/news\/author\/).*(?=\/)/
-  );
+  const username = getUsername(authorUrl);
 
   if (!username) {
     throw new Error("Failed to parse username");
@@ -74,10 +89,7 @@ export const getPostsMetadataByAuthor = async ({
 
   if (shouldWriteFile) {
     await writeFile(
-      path.resolve(
-        __dirname,
-        `../posts-metadata-by-author/${username[0]}.json`
-      ),
+      path.resolve(__dirname, `./posts-metadata-by-author/${username}.json`),
       JSON.stringify(data)
     );
 

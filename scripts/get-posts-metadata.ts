@@ -1,9 +1,6 @@
-import { gotScraping } from "got-scraping";
-import * as cheerio from "cheerio";
 import { writeFile, readFile } from "fs/promises";
 import path from "path";
 
-import { type PostMetadata, type Metadata } from "../types";
 import { getPostsMetadataByAuthor } from "../utils";
 
 const __dirname = import.meta.dirname;
@@ -34,8 +31,9 @@ const getAllPostsMetadata = async () => {
 };
 
 // --------- Execution ---------
-await getAllPostsMetadata();
+// await getAllPostsMetadata();
 
-// await getPostsMetadataByAuthor(
-//   "https://www.freecodecamp.org/news/author/kris/"
-// );
+await getPostsMetadataByAuthor({
+  authorUrl: "https://www.freecodecamp.org/news/author/kris/",
+  shouldWriteFile: true,
+});

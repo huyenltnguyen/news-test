@@ -5,7 +5,7 @@ import {
   AUTHOR,
   EXPECTED_POSTS_METADATA,
   EXPECTED_POST_URLS,
-} from "./test-utils";
+} from "../test-utils";
 import { PostsMetadataByAuthor } from "../types";
 
 const postsMetadataByAuthor = await getPostsMetadataByAuthor({

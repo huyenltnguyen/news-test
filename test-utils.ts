@@ -1,16 +1,15 @@
 import { readFile } from "fs/promises";
 import path from "path";
 
-import { type PostsMetadataByAuthor, type PostMetadata } from "../types";
+import { type PostsMetadataByAuthor, type PostMetadata } from "./types";
+import { getUsername } from "./utils";
 
 const __dirname = import.meta.dirname;
 
 export const getExpectedMetadata = async (
-  author: string
+  authorUrl: string
 ): Promise<Record<string, PostMetadata>> => {
-  const username = author.match(
-    /(?<=https:\/\/www.freecodecamp.org\/news\/author\/).*(?=\/)/
-  );
+  const username = getUsername(authorUrl);
 
   const metadataJson = await readFile(
     path.resolve(__dirname, `../posts-metadata-by-author/${username}.json`),
@@ -20,7 +19,7 @@ export const getExpectedMetadata = async (
 
   // The metadata in the file is grouped under a key, which is the author URL.
   // Extract the nested metadata here to make the tests a little easier to read.
-  return metadata[author];
+  return metadata[authorUrl];
 };
 
 // Change this value when testing posts by author

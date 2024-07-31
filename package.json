@@ -1,8 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "scrape": "tsx ./scripts/scrape.ts",
-    "download-urls": "tsx ./scripts/download-urls.ts",
+    "download-from-sitemap": "tsx ./scripts/download-from-sitemap.ts",
     "get-posts-metadata": "NODE_OPTIONS=\"--max-old-space-size=7168\" tsx ./scripts/get-posts-metadata.ts",
     "sanity-check": "tsx ./scripts/sanity-check.ts",
     "test": "vitest",
