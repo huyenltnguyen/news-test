@@ -193,7 +193,7 @@ const getMetaTwitterCreator = (metadata: Metadata) =>
 // Tests
 // ------------------------------
 describe("Posts metadata", () => {
-  // it("should have correct metadata", async () => {
+  // it("should have correct metadata", () => {
   //   for (const url of EXPECTED_POST_URLS) {
   //     console.log("URL:", url);
 
@@ -229,9 +229,6 @@ describe("Posts metadata", () => {
   //       expect(elementExists).toBe(true);
   //     }
   //   }
-
-  //   // Sanity check to ensure that at least one assertion was called, since the test involves async operations.
-  //   expect.hasAssertions();
   // });
 
   it("should have the correct <title>", () => {

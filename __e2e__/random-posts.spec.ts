@@ -1,39 +1,16 @@
 import { test, expect } from "@playwright/test";
-import { readFile } from "fs/promises";
-import path from "path";
 
-const __dirname = import.meta.dirname;
-
-const randomIndex = (max: number) => Math.floor(Math.random() * max);
-
-const getRandomPosts = async () => {
-  const json = await readFile(
-    path.resolve(__dirname, `../data-from-sitemap/posts.json`),
-    { encoding: "utf8" }
-  );
-
-  const posts = JSON.parse(json);
-  const len = posts.length;
-
-  const randomPosts: string[] = [];
-
-  while (randomPosts.length < 20) {
-    randomPosts.push(posts[randomIndex(len)]);
-  }
-  return randomPosts;
-};
-
-const POST_URLS = await getRandomPosts();
-
-// Keeping this test in case we need a mechanism to query the DOM with ease.
-// Note that Playwright tests run very slowly compared to the Vitest ones.
 test.describe("Posts content", () => {
-  test("should display the content correctly", async ({ page, isMobile }) => {
-    for (const url of POST_URLS) {
-      console.log("URL:", url);
+  const postUrls = JSON.parse(process.env.RANDOM_POSTS);
 
+  postUrls.forEach((url) => {
+    test(`${url} - should display the content correctly`, async ({
+      page,
+      isMobile,
+    }) => {
       await page.goto(url);
 
+      // Post content
       await expect(
         page
           .getByRole("heading", { level: 1 })
@@ -43,13 +20,14 @@ test.describe("Posts content", () => {
       ).toBeVisible();
 
       await expect(page.getByTestId("post-content")).toBeVisible();
-      await expect(
-        page.getByRole("button").and(page.getByTestId("tweet-button"))
-      ).toBeVisible();
-      await expect(
-        page.getByRole("link", { name: "Get Started" })
-      ).toBeVisible();
 
+      if (!isMobile) {
+        await expect(
+          page.getByRole("img").and(page.getByTestId("feature-image"))
+        ).toBeVisible();
+      }
+
+      // Author card
       const authorCard = page.getByTestId("author-card");
       const hasAuthorCard = !!(await authorCard.all()).length;
 
@@ -65,11 +43,17 @@ test.describe("Posts content", () => {
         await expect(authorLink).toHaveCount(2);
       }
 
-      if (!isMobile) {
-        await expect(
-          page.getByRole("img").and(page.getByTestId("feature-image"))
-        ).toBeVisible();
-      }
-    }
+      // Social CTA
+      const socialCta = page.getByTestId("social-row-cta");
+      await expect(
+        socialCta.getByRole("button").and(socialCta.getByTestId("tweet-button"))
+      ).toBeVisible();
+
+      // Learn CTA
+      const learnCta = page.getByTestId("learn-cta-row");
+      await expect(
+        learnCta.getByRole("link", { name: "Get Started" })
+      ).toBeVisible();
+    });
   });
 });

@@ -28,3 +28,22 @@ export const AUTHOR =
   process.env.AUTHOR || "https://www.freecodecamp.org/news/author/quincy/";
 export const EXPECTED_POSTS_METADATA = await getExpectedMetadata(AUTHOR);
 export const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_METADATA);
+
+const randomIndex = (max: number) => Math.floor(Math.random() * max);
+
+export const getRandomPosts = async () => {
+  const json = await readFile(
+    path.resolve(__dirname, `./data-from-sitemap/posts.json`),
+    { encoding: "utf8" }
+  );
+
+  const posts = JSON.parse(json);
+  const len = posts.length;
+
+  const randomPosts: string[] = [];
+
+  while (randomPosts.length < 20) {
+    randomPosts.push(posts[randomIndex(len)]);
+  }
+  return randomPosts;
+};
