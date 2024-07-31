@@ -42,15 +42,11 @@ export const getPostMetadata = async (
   const metadata: Metadata = $("head")
     .children()
     .toArray()
-    .map((child) => {
-      const scriptContent = child.name === "script" ? $(child).text() : null;
-
-      return {
-        tagName: child.name,
-        attributes: child.attribs,
-        ...(scriptContent && { scriptContent }),
-      };
-    });
+    .map((child) => ({
+      tagName: child.name,
+      attributes: child.attribs,
+      content: $(child).text(),
+    }));
 
   return { [postUrl]: { metadata, html } };
 };
@@ -93,7 +89,7 @@ export const getPostsMetadataByAuthor = async ({
       JSON.stringify(data)
     );
 
-    console.log("Author posts downloaded.");
+    console.log(`Author posts downloaded. Author URL: ${authorUrl}`);
     return;
   }
 
