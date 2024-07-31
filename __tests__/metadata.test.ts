@@ -189,6 +189,9 @@ const getMetaTwitterCreator = (metadata: Metadata) =>
       item.tagName === "meta" && item.attributes.name === "twitter:creator"
   );
 
+// ------------------------------
+// Tests
+// ------------------------------
 describe("Posts metadata", () => {
   // it("should have correct metadata", async () => {
   //   for (const url of EXPECTED_POST_URLS) {
