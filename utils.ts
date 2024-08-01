@@ -74,9 +74,13 @@ export const getPostsMetadataByAuthor = async ({
     .map((_, el) => $(el).prop("href"))
     .toArray();
 
-  const promises = postUrls.map((url) =>
-    getPostMetadata(`https://www.freecodecamp.org/${url}`)
-  );
+  const promises = postUrls.map((url) => {
+    if (!url.includes("https://www.freecodecamp.org/")) {
+      return getPostMetadata(`https://www.freecodecamp.org/${url}`);
+    }
+    return getPostMetadata(url);
+  });
+
   const postsMetadata = await Promise.all(promises);
 
   const username = getUsername(authorUrl);

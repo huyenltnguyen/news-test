@@ -189,6 +189,13 @@ const getMetaTwitterCreator = (metadata: Metadata) =>
       item.tagName === "meta" && item.attributes.name === "twitter:creator"
   );
 
+const getJsonLD = (metadata: Metadata) =>
+  metadata.find(
+    (item) =>
+      item.tagName === "script" &&
+      item.attributes.type === "application/ld+json"
+  );
+
 // ------------------------------
 // Tests
 // ------------------------------
@@ -404,5 +411,14 @@ describe.each(EXPECTED_POST_URLS)("%s - Post metadata", (url) => {
     expect(getMetaTwitterCreator(metadata)).toEqual(
       getMetaTwitterCreator(expectedMetadata)
     );
+  });
+
+  it("should have the correct JSON-LD", () => {
+    const expected = getJsonLD(expectedMetadata);
+    const actual = getJsonLD(metadata);
+
+    expect(actual).toBeTruthy();
+    // @ts-ignore
+    expect(JSON.parse(actual.content)).toEqual(JSON.parse(expected.content));
   });
 });
