@@ -56,37 +56,6 @@ describe.each(randomPosts)("%s - Random post", async (url) => {
     expect(el.attr("src")).toBeTruthy();
   });
 
-  it("should have author cards", () => {
-    const el = $("section[data-test-label='author-card']");
-
-    expect(el).toBeTruthy();
-    expect(el.length).toEqual(2);
-  });
-
-  it("should have author images", () => {
-    const el = $("img[data-test-label='profile-image']");
-
-    expect(el).toBeTruthy();
-    expect(el.length).toEqual(2);
-
-    el.each((_, e) => {
-      expect($(e).attr("alt")).toBeTruthy();
-      expect($(e).attr("src")).toBeTruthy();
-    });
-  });
-
-  it("should have author links", () => {
-    const el = $("a[data-test-label='profile-link']");
-
-    expect(el).toBeTruthy();
-    expect(el.length).toEqual(2);
-
-    el.each((_, e) => {
-      expect($(e).attr("href")).toBeTruthy();
-      expect($(e).text()).toBeTruthy();
-    });
-  });
-
   it("should have a tweet button", () => {
     const el = $("button[data-test-label='tweet-button']");
 
@@ -103,5 +72,51 @@ describe.each(randomPosts)("%s - Random post", async (url) => {
     expect(el.attr("href")).toEqual("https://www.freecodecamp.org/learn/");
     expect(el.attr("target")).toEqual("_blank");
     expect(el.text()).toEqual("Get started");
+  });
+
+  it("should have author cards", ({ skip }) => {
+    const el = $("section[data-test-label='author-card']");
+
+    // Some posts don't have this element
+    if (!el.length) {
+      skip();
+    }
+
+    expect(el).toBeTruthy();
+    expect(el.length).toEqual(2);
+  });
+
+  it("should have author images", ({ skip }) => {
+    const el = $("img[data-test-label='profile-image']");
+
+    // Some posts don't have this element
+    if (!el.length) {
+      skip();
+    }
+
+    expect(el).toBeTruthy();
+    expect(el.length).toEqual(2);
+
+    el.each((_, e) => {
+      expect($(e).attr("alt")).toBeTruthy();
+      expect($(e).attr("src")).toBeTruthy();
+    });
+  });
+
+  it("should have author links", ({ skip }) => {
+    const el = $("a[data-test-label='profile-link']");
+
+    // Some posts don't have this element
+    if (!el.length) {
+      skip();
+    }
+
+    expect(el).toBeTruthy();
+    expect(el.length).toEqual(2);
+
+    el.each((_, e) => {
+      expect($(e).attr("href")).toBeTruthy();
+      expect($(e).text()).toBeTruthy();
+    });
   });
 });
