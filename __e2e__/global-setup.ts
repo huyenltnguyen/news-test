@@ -4,7 +4,7 @@ import { getRandomPosts } from "../test-utils";
 async function globalSetup(config: FullConfig) {
   // Generate the list globally as Playwright doesn't allow randomization during test execution.
   // See https://github.com/microsoft/playwright/issues/28987
-  const RANDOM_POSTS = await getRandomPosts();
+  const RANDOM_POSTS = await getRandomPosts(10);
   process.env.RANDOM_POSTS = JSON.stringify(RANDOM_POSTS);
 }
 

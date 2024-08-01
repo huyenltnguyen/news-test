@@ -192,7 +192,7 @@ const getMetaTwitterCreator = (metadata: Metadata) =>
 // ------------------------------
 // Tests
 // ------------------------------
-describe.each(EXPECTED_POST_URLS)("Posts metadata", (url) => {
+describe.each(EXPECTED_POST_URLS)("%s - Post metadata", (url) => {
   const { metadata: expectedMetadata } = EXPECTED_POSTS_METADATA[url];
   const { metadata } = postsMetadata[url];
 

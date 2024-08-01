@@ -32,8 +32,12 @@ export const getPostMetadata = async (
   postUrl: string
 ): Promise<{ [postUrl: string]: PostMetadata }> => {
   const response = await gotScraping.get({
-    url: `https://www.freecodecamp.org/${postUrl}`,
+    url: postUrl,
   });
+
+  if (!response.ok || response.statusCode !== 200) {
+    throw new Error(`Failed to fetch ${postUrl}`);
+  }
 
   const html = response.body;
 
@@ -70,7 +74,9 @@ export const getPostsMetadataByAuthor = async ({
     .map((_, el) => $(el).prop("href"))
     .toArray();
 
-  const promises = postUrls.map((url) => getPostMetadata(url));
+  const promises = postUrls.map((url) =>
+    getPostMetadata(`https://www.freecodecamp.org/${url}`)
+  );
   const postsMetadata = await Promise.all(promises);
 
   const username = getUsername(authorUrl);

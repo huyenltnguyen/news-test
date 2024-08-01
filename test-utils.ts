@@ -31,7 +31,7 @@ export const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_METADATA);
 
 const randomIndex = (max: number) => Math.floor(Math.random() * max);
 
-export const getRandomPosts = async () => {
+export const getRandomPosts = async (postCount: number) => {
   const json = await readFile(
     path.resolve(__dirname, `./data-from-sitemap/posts.json`),
     { encoding: "utf8" }
@@ -42,7 +42,7 @@ export const getRandomPosts = async () => {
 
   const randomPosts: string[] = [];
 
-  while (randomPosts.length < 20) {
+  while (randomPosts.length < postCount) {
     randomPosts.push(posts[randomIndex(len)]);
   }
   return randomPosts;

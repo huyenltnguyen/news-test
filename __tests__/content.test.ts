@@ -58,7 +58,7 @@ const getTweetButton = (html: string) => {
 
 // This test is probably flaky / can have false negatives since it compares strings
 // rather than querying the elements and looking for their attributes.
-describe.each(EXPECTED_POST_URLS)("Posts content", (url) => {
+describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
   const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
   const { html } = postsMetadata[url];
 

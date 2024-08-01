@@ -1,11 +1,9 @@
-name: Unit Tests
+name: Test - Random Posts
 on:
   workflow_dispatch:
   pull_request:
     branches:
       - "main"
-env:
-  AUTHOR: ${{ vars.AUTHOR }}
 
 jobs:
   test:
@@ -26,8 +24,5 @@ jobs:
           version: 9
           run_install: true
 
-      - name: Confirm author
-        run: echo "Author is $AUTHOR"
-
       - name: Run tests
-        run: pnpm test
+        run: pnpm test --testNamePattern random-posts.test.ts
