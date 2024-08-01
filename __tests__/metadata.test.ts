@@ -18,22 +18,6 @@ const postsMetadata = (postsMetadataByAuthor as PostsMetadataByAuthor)[AUTHOR];
 // ------------------------------
 // Assertion helpers
 // ------------------------------
-const areObjectsEqual = (obj1, obj2) => {
-  if (Object.keys(obj1).length !== Object.keys(obj2).length) {
-    return false;
-  }
-
-  const keys = Object.keys(obj1);
-
-  for (const key of keys) {
-    if (obj1[key] !== obj2[key]) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
 const getTitle = (metadata: Metadata) =>
   metadata.find((item) => item.tagName === "title");
 
@@ -202,37 +186,6 @@ const getJsonLD = (metadata: Metadata) =>
 describe.each(EXPECTED_POST_URLS)("%s - Post metadata", (url) => {
   const { metadata: expectedMetadata } = EXPECTED_POSTS_METADATA[url];
   const { metadata } = postsMetadata[url];
-
-  // it("should have correct metadata", () => {
-  //   expect(metadata.length).toEqual(expectedMetadata.length);
-
-  //   // Check if the elements exist and match the ones in the original object
-  //   for (const element of metadata) {
-  //     const elementExists = expectedMetadata.some(
-  //       ({
-  //         tagName: expectedTagName,
-  //         attributes: expectedAttributes,
-  //         scriptContent: expectedScriptContent,
-  //       }) => {
-  //         if (expectedTagName !== element.tagName) {
-  //           return false;
-  //         }
-
-  //         return (
-  //           areObjectsEqual(expectedAttributes, element.attributes) &&
-  //           expectedScriptContent === element.scriptContent
-  //         );
-  //       }
-  //     );
-
-  //     // This is for debugging
-  //     if (!elementExists) {
-  //       console.log("element:", element);
-  //     }
-
-  //     expect(elementExists).toBe(true);
-  //   }
-  // });
 
   it("should have the correct <title>", () => {
     expect(getTitle(metadata)).toBeTruthy();

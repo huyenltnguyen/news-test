@@ -77,14 +77,6 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
     expect(getAuthorLink(html)).toEqual(getAuthorLink(expectedHtml));
   });
 
-  // Skipping this one as it can cause the test flaky.
-  // It is because of the `min-width` attribute set to the posts' images,
-  // which can return different width values.
-  it.skip("should have the correct content", () => {
-    expect(getContent(html)).toBeTruthy();
-    expect(getContent(html)).toEqual(getContent(expectedHtml));
-  });
-
   it("should have the correct feature image", () => {
     expect(getFeatureImage(html)).toBeTruthy();
     expect(getFeatureImage(html)).toEqual(getFeatureImage(expectedHtml));
