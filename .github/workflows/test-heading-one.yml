@@ -1,4 +1,4 @@
-name: Test - Heading one
+name: Test - Heading One
 
 on:
   workflow_dispatch:
