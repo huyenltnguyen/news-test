@@ -1,15 +1,15 @@
 import { expect, describe, it } from "vitest";
 
-import { getPostsMetadataByAuthor } from "../utils";
+import { getPostsDataByAuthor } from "../utils";
 import { AUTHOR, EXPECTED_POST_URLS } from "../test-utils";
-import { PostsMetadataByAuthor } from "../types";
+import { PostsDataByAuthor } from "../types";
 
-const postsMetadataByAuthor = await getPostsMetadataByAuthor({
+const postsMetadataByAuthor = await getPostsDataByAuthor({
   authorUrl: AUTHOR,
   shouldWriteFile: false,
 });
 
-const postsMetadata = (postsMetadataByAuthor as PostsMetadataByAuthor)[AUTHOR];
+const postsMetadata = (postsMetadataByAuthor as PostsDataByAuthor)[AUTHOR];
 
 describe("Post count", () => {
   it("should match the original post count", () => {

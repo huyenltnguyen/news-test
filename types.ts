@@ -1,4 +1,4 @@
-export type PostMetadata = { html: string };
+export type PostData = { html: string };
 
 /**
  * Example:
@@ -15,6 +15,6 @@ export type PostMetadata = { html: string };
  *   }
  * }
  */
-export type PostsMetadataByAuthor = {
-  [authorUrl: string]: Record<string, PostMetadata>;
+export type PostsDataByAuthor = {
+  [authorUrl: string]: Record<string, PostData>;
 };
