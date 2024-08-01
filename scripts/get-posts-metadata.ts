@@ -31,9 +31,9 @@ const getAllPostsMetadata = async () => {
 };
 
 // --------- Execution ---------
-// await getAllPostsMetadata();
+await getAllPostsMetadata();
 
-await getPostsMetadataByAuthor({
-  authorUrl: "https://www.freecodecamp.org/news/author/kris/",
-  shouldWriteFile: true,
-});
+// await getPostsMetadataByAuthor({
+//   authorUrl: "https://www.freecodecamp.org/news/author/kris/",
+//   shouldWriteFile: true,
+// });

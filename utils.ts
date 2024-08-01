@@ -3,11 +3,7 @@ import * as cheerio from "cheerio";
 import { writeFile } from "fs/promises";
 import path from "path";
 
-import {
-  type PostsMetadataByAuthor,
-  type PostMetadata,
-  type Metadata,
-} from "./types";
+import { type PostsMetadataByAuthor, type PostMetadata } from "./types";
 
 const __dirname = import.meta.dirname;
 
@@ -41,18 +37,7 @@ export const getPostMetadata = async (
 
   const html = response.body;
 
-  const $ = cheerio.load(html);
-
-  const metadata: Metadata = $("head")
-    .children()
-    .toArray()
-    .map((child) => ({
-      tagName: child.name,
-      attributes: child.attribs,
-      content: $(child).text(),
-    }));
-
-  return { [postUrl]: { metadata, html } };
+  return { [postUrl]: { html } };
 };
 
 export const getPostsMetadataByAuthor = async ({
