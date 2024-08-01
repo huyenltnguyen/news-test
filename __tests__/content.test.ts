@@ -29,9 +29,18 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
   });
 
   it("should have the correct heading", () => {
-    const query = "h1";
+    const query = "h1[data-test-label='post-full-title']";
 
     expect($html(query)).toBeTruthy();
+    expect($html(query).length).toEqual(1);
+    expect($html(query).text()).toEqual($expectedHtml(query).text());
+  });
+
+  it("should have the correct content", () => {
+    const query = "section[data-test-label='post-content']";
+
+    expect($html(query)).toBeTruthy();
+
     expect($html(query).length).toEqual(1);
     expect($html(query).text()).toEqual($expectedHtml(query).text());
   });
@@ -49,6 +58,9 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
 
     expect($html(query)).toBeTruthy();
     expect($html(query).length).toEqual(2);
+    expect($html(query).attr("href")).toEqual(
+      $expectedHtml(query).attr("href")
+    );
     expect($html(query).text()).toEqual($expectedHtml(query).text());
   });
 
