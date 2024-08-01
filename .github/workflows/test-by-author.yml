@@ -30,4 +30,4 @@ jobs:
         run: echo "Author is $AUTHOR"
 
       - name: Run tests
-        run: pnpm test --exclude random-posts.test.ts
+        run: pnpm run test:by-author
