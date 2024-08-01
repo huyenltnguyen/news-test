@@ -29,6 +29,12 @@ export const getPostData = async (
 ): Promise<{ [postUrl: string]: PostData }> => {
   const response = await gotScraping.get({
     url: postUrl,
+    headerGeneratorOptions: {
+      browsers: [{ name: "chrome" }],
+      devices: ["desktop"],
+      locales: ["en-US"],
+      operatingSystems: ["windows"],
+    },
   });
 
   if (!response.ok || response.statusCode !== 200) {
