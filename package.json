@@ -2,12 +2,12 @@
   "type": "module",
   "scripts": {
     "download-from-sitemap": "tsx ./scripts/download-from-sitemap.ts",
-    "get-posts-metadata": "NODE_OPTIONS=\"--max-old-space-size=7168\" tsx ./scripts/get-posts-metadata.ts",
+    "get-posts-metadata": "NODE_OPTIONS=\"--max-old-space-size=8192\" tsx ./scripts/get-posts-metadata.ts",
     "sanity-check": "tsx ./scripts/sanity-check.ts",
     "test": "vitest",
     "test:by-author": "pnpm run test --exclude __tests__/random-posts.test.ts --exclude __tests__/heading-one.test.ts",
     "test:random": "pnpm run test random-posts",
-    "test:heading-one": "pnpm run test heading-one",
+    "test:heading-one": "NODE_OPTIONS=\"--max-old-space-size=7168\" pnpm run test heading-one",
     "e2e": "npx playwright test"
   },
   "devDependencies": {
