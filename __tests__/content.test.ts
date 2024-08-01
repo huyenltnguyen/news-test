@@ -58,67 +58,40 @@ const getTweetButton = (html: string) => {
 
 // This test is probably flaky / can have false negatives since it compares strings
 // rather than querying the elements and looking for their attributes.
-describe("Posts content", () => {
-  it("should have the correct heading", () => {
-    for (const url of EXPECTED_POST_URLS) {
-      const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
-      const { html } = postsMetadata[url];
+describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
+  const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
+  const { html } = postsMetadata[url];
 
-      expect(getHeading(html)).toBeTruthy();
-      expect(getHeading(html)).toEqual(getHeading(expectedHtml));
-    }
+  it("should have the correct heading", () => {
+    expect(getHeading(html)).toBeTruthy();
+    expect(getHeading(html)).toEqual(getHeading(expectedHtml));
   });
 
   it("should have the correct author card", () => {
-    for (const url of EXPECTED_POST_URLS) {
-      const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
-      const { html } = postsMetadata[url];
-
-      expect(getAuthorCard(html)).toBeTruthy();
-      expect(getAuthorCard(html)).toEqual(getAuthorCard(expectedHtml));
-    }
+    expect(getAuthorCard(html)).toBeTruthy();
+    expect(getAuthorCard(html)).toEqual(getAuthorCard(expectedHtml));
   });
 
   it("should have the correct author link", () => {
-    for (const url of EXPECTED_POST_URLS) {
-      const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
-      const { html } = postsMetadata[url];
-
-      expect(getAuthorLink(html)).toBeTruthy();
-      expect(getAuthorLink(html)).toEqual(getAuthorLink(expectedHtml));
-    }
+    expect(getAuthorLink(html)).toBeTruthy();
+    expect(getAuthorLink(html)).toEqual(getAuthorLink(expectedHtml));
   });
 
   // Skipping this one as it can cause the test flaky.
   // It is because of the `min-width` attribute set to the posts' images,
   // which can return different width values.
   it.skip("should have the correct content", () => {
-    for (const url of EXPECTED_POST_URLS) {
-      const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
-      const { html } = postsMetadata[url];
-
-      expect(getContent(html)).toBeTruthy();
-      expect(getContent(html)).toEqual(getContent(expectedHtml));
-    }
+    expect(getContent(html)).toBeTruthy();
+    expect(getContent(html)).toEqual(getContent(expectedHtml));
   });
 
   it("should have the correct feature image", () => {
-    for (const url of EXPECTED_POST_URLS) {
-      const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
-      const { html } = postsMetadata[url];
-
-      expect(getFeatureImage(html)).toBeTruthy();
-      expect(getFeatureImage(html)).toEqual(getFeatureImage(expectedHtml));
-    }
+    expect(getFeatureImage(html)).toBeTruthy();
+    expect(getFeatureImage(html)).toEqual(getFeatureImage(expectedHtml));
   });
 
   it("should have the correct tweet button", () => {
-    for (const url of EXPECTED_POST_URLS) {
-      const { html: expectedHtml } = EXPECTED_POSTS_METADATA[url];
-      const { html } = postsMetadata[url];
-
-      expect(getTweetButton(html)).toBeTruthy();
-      expect(getTweetButton(html)).toEqual(getTweetButton(expectedHtml));
-    }
+    expect(getTweetButton(html)).toBeTruthy();
+    expect(getTweetButton(html)).toEqual(getTweetButton(expectedHtml));
   });
 });

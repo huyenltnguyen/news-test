@@ -5,12 +5,15 @@
     "get-posts-metadata": "NODE_OPTIONS=\"--max-old-space-size=7168\" tsx ./scripts/get-posts-metadata.ts",
     "sanity-check": "tsx ./scripts/sanity-check.ts",
     "test": "vitest",
+    "test:by-author": "pnpm run test --exclude __tests__/random-posts.test.ts",
+    "test:random": "pnpm run test random-posts",
     "e2e": "npx playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.45.3",
     "@types/node": "^20.14.12",
     "cheerio": "1.0.0-rc.12",
+    "dotenv": "^16.4.5",
     "got-scraping": "^4.0.6",
     "playwright": "^1.45.3",
     "tsx": "^4.16.2",

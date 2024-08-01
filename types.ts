@@ -3,7 +3,7 @@ export type Metadata = Array<{
   attributes: {
     [name: string]: string;
   };
-  scriptContent?: string;
+  content: string;
 }>;
 
 /**

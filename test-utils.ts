@@ -1,5 +1,6 @@
 import { readFile } from "fs/promises";
 import path from "path";
+import "dotenv/config";
 
 import { type PostsMetadataByAuthor, type PostMetadata } from "./types";
 import { getUsername } from "./utils";
@@ -23,6 +24,26 @@ export const getExpectedMetadata = async (
 };
 
 // Change this value when testing posts by author
-export const AUTHOR = "https://www.freecodecamp.org/news/author/kris/";
+export const AUTHOR =
+  process.env.AUTHOR || "https://www.freecodecamp.org/news/author/quincy/";
 export const EXPECTED_POSTS_METADATA = await getExpectedMetadata(AUTHOR);
 export const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_METADATA);
+
+const randomIndex = (max: number) => Math.floor(Math.random() * max);
+
+export const getRandomPosts = async (postCount: number) => {
+  const json = await readFile(
+    path.resolve(__dirname, `./data-from-sitemap/posts.json`),
+    { encoding: "utf8" }
+  );
+
+  const posts = JSON.parse(json);
+  const len = posts.length;
+
+  const randomPosts: string[] = [];
+
+  while (randomPosts.length < postCount) {
+    randomPosts.push(posts[randomIndex(len)]);
+  }
+  return randomPosts;
+};
