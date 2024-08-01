@@ -12,7 +12,7 @@ export type Metadata = Array<{
  *   "path/to/post-one": {
  *     metadata: [
  *       { tagName, attributes },
- *       { tagName, attributes, scriptContent },
+ *       { tagName, attributes, content },
  *     ],
  *     html: "<!DOCTYPE html><html lang="en">..."
  *   }
@@ -28,14 +28,14 @@ export type PostMetadata = { metadata: Metadata; html: string };
  *       "path/to/post-one": {
  *         metadata: [
  *           { tagName, attributes },
- *           { tagName, attributes, scriptContent },
+ *           { tagName, attributes, content },
  *         ],
  *         html: "<!DOCTYPE html><html lang="en">..."
  *       },
  *       "path/to/post-two": {
  *         metadata: [
  *           { tagName, attributes },
- *           { tagName, attributes, scriptContent },
+ *           { tagName, attributes, content },
  *         ],
  *         html: "<!DOCTYPE html><html lang="en">..."
  *       }
