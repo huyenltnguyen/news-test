@@ -29,10 +29,48 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
   });
 
   it("should have the correct heading", () => {
-    const query = "h1";
+    const query = "h1[data-test-label='post-full-title']";
 
     expect($html(query)).toBeTruthy();
     expect($html(query).length).toEqual(1);
+
+    expect($html(query).text()).toBeTruthy();
+    expect($html(query).text()).toEqual($expectedHtml(query).text());
+  });
+
+  it("should have the correct published date", () => {
+    const query = "time[data-test-label='post-full-meta-date']";
+
+    expect($html(query)).toBeTruthy();
+    expect($html(query).length).toEqual(1);
+
+    expect($html(query).attr()).toBeTruthy();
+    expect($html(query).attr()).toEqual($expectedHtml(query).attr());
+
+    expect($html(query).text()).toBeTruthy();
+    expect($html(query).text()).toEqual($expectedHtml(query).text());
+  });
+
+  it("should have the correct tag", () => {
+    const query = "section[class='post-full-meta'] a";
+
+    expect($html(query)).toBeTruthy();
+    expect($html(query).length).toEqual(1);
+
+    expect($html(query).attr()).toBeTruthy();
+    expect($html(query).attr()).toEqual($expectedHtml(query).attr());
+
+    expect($html(query).text()).toBeTruthy();
+    expect($html(query).text()).toEqual($expectedHtml(query).text());
+  });
+
+  it("should have the correct content", () => {
+    const query = "section[data-test-label='post-content']";
+
+    expect($html(query)).toBeTruthy();
+    expect($html(query).length).toEqual(1);
+
+    expect($html(query).text()).toBeTruthy();
     expect($html(query).text()).toEqual($expectedHtml(query).text());
   });
 
@@ -41,7 +79,19 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
 
     expect($html(query)).toBeTruthy();
     expect($html(query).length).toEqual(2);
+
+    expect($html(query).text()).toBeTruthy();
     expect($html(query).text()).toEqual($expectedHtml(query).text());
+  });
+
+  it("should have the correct author image", () => {
+    const query = "img[data-test-label='profile-image']";
+
+    expect($html(query)).toBeTruthy();
+    expect($html(query).length).toEqual(2);
+
+    expect($html(query).attr()).toBeTruthy();
+    expect($html(query).attr()).toEqual($expectedHtml(query).attr());
   });
 
   it("should have the correct author link", () => {
@@ -49,6 +99,11 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
 
     expect($html(query)).toBeTruthy();
     expect($html(query).length).toEqual(2);
+
+    expect($html(query).attr()).toBeTruthy();
+    expect($html(query).attr()).toEqual($expectedHtml(query).attr());
+
+    expect($html(query).text()).toBeTruthy();
     expect($html(query).text()).toEqual($expectedHtml(query).text());
   });
 
@@ -57,8 +112,9 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
 
     expect($html(query)).toBeTruthy();
     expect($html(query).length).toEqual(1);
-    expect($html(query).attr("src")).toEqual($expectedHtml(query).attr("src"));
-    expect($html(query).attr("alt")).toEqual($expectedHtml(query).attr("alt"));
+
+    expect($html(query).attr()).toBeTruthy();
+    expect($html(query).attr()).toEqual($expectedHtml(query).attr());
   });
 
   it("should have the correct tweet button", () => {
@@ -66,6 +122,7 @@ describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
 
     expect($html(query)).toBeTruthy();
     expect($html(query).length).toEqual(1);
+
     expect($html(query).attr("onclick")).toEqual(
       $expectedHtml(query).attr("onclick")
     );
