@@ -5,14 +5,14 @@ import path from "path";
 
 const __dirname = import.meta.dirname;
 
-export const SITE_MAP = {
+const SITE_MAP = {
   pages: "https://www.freecodecamp.org/news/sitemap-pages.xml",
   posts: "https://www.freecodecamp.org/news/sitemap-posts.xml",
   authors: "https://www.freecodecamp.org/news/sitemap-authors.xml",
   tags: "https://www.freecodecamp.org/news/sitemap-tags.xml",
 };
 
-export const getUrlsFromSitemap = async (sitemapLink: string) => {
+const getUrlsFromSitemap = async (sitemapLink: string) => {
   const response = await gotScraping.get({
     url: sitemapLink,
   });
