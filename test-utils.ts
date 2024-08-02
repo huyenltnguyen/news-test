@@ -3,11 +3,18 @@ import path from "path";
 import "dotenv/config";
 
 import { type PostsDataByAuthor, type PostData } from "./types";
-import { getUsername } from "./utils";
+import { getPostsDataByAuthor, getUsername } from "./utils";
 
 const __dirname = import.meta.dirname;
 
-export const getExpectedData = async (
+export const GHOST_AUTHOR =
+  process.env.GHOST_AUTHOR ||
+  "https://www.freecodecamp.org/news/author/quincylarson";
+export const HASHNODE_AUTHOR =
+  process.env.HASHNODE_AUTHOR ||
+  "https://www.freecodecamp.org/news/author/quincy";
+
+const getExpectedData = async (
   authorUrl: string
 ): Promise<{ [postUrl: string]: PostData }> => {
   const username = getUsername(authorUrl);
@@ -23,16 +30,20 @@ export const getExpectedData = async (
   return data[authorUrl];
 };
 
-export const GHOST_AUTHOR =
-  process.env.GHOST_AUTHOR ||
-  "https://www.freecodecamp.org/news/author/quincylarson";
-export const HASHNODE_AUTHOR =
-  process.env.HASHNODE_AUTHOR ||
-  "https://www.freecodecamp.org/news/author/quincy";
+const getHashnodePostsData = async () => {
+  const data = await getPostsDataByAuthor({
+    authorUrl: HASHNODE_AUTHOR,
+    shouldWriteFile: false,
+  });
 
-export const AUTHOR =
-  process.env.AUTHOR || "https://www.freecodecamp.org/news/author/quincy/";
-export const EXPECTED_POSTS_DATA = await getExpectedData(AUTHOR);
+  return (data as PostsDataByAuthor)[HASHNODE_AUTHOR];
+};
+
+// For Hashnode account, find the posts from /news
+export const HASHNODE_POSTS_DATA = await getHashnodePostsData();
+
+// For Ghost account, find the posts from the archive
+export const EXPECTED_POSTS_DATA = await getExpectedData(GHOST_AUTHOR);
 export const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_DATA);
 
 const randomIndex = (max: number) => Math.floor(Math.random() * max);

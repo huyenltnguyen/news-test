@@ -5,7 +5,6 @@ on:
     branches:
       - "main"
 env:
-  AUTHOR: ${{ vars.AUTHOR }}
   GHOST_AUTHOR: ${{ vars.GHOST_AUTHOR }}
   HASHNODE_AUTHOR: ${{ vars.HASHNODE_AUTHOR }}
 
@@ -29,7 +28,9 @@ jobs:
           run_install: true
 
       - name: Confirm env variables
-        run: echo "AUTHOR is $AUTHOR\nGHOST_AUTHOR is $GHOST_AUTHOR\nHASHNODE_AUTHOR is $HASHNODE_AUTHOR"
+        run: |
+          echo "GHOST_AUTHOR is $GHOST_AUTHOR"
+          echo "HASHNODE_AUTHOR is $HASHNODE_AUTHOR"
 
       - name: Run tests
         run: pnpm run test:by-author
