@@ -3,6 +3,10 @@ name: Test - Heading One
 on:
   workflow_dispatch:
 
+env:
+  POST_LIST_START_IDX: ${{ vars.POST_LIST_START_IDX }}
+  POST_LIST_END_IDX: ${{ vars.POST_LIST_END_IDX }}
+
 jobs:
   test:
     name: Test
@@ -22,5 +26,22 @@ jobs:
           version: 9
           run_install: true
 
+      - name: Confirm env variables
+        run: |
+          echo "POST_LIST_START_IDX is $POST_LIST_START_IDX"
+          echo "POST_LIST_END_IDX is $POST_LIST_END_IDX"
+
       - name: Run tests
         run: pnpm run test:heading-one
+
+      - name: Report failed tests
+        if: failure()
+        run: pnpm run report:heading-one
+
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ vars.POST_LIST_START_IDX }}-${{ vars.POST_LIST_END_IDX }}
+          path: __tests__/report/posts-with-heading-issue.json
+          retention-days: 30

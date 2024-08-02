@@ -1,6 +1,9 @@
 import { gotScraping } from "got-scraping";
 import * as cheerio from "cheerio";
 import { expect, describe, it, beforeAll } from "vitest";
+import "dotenv/config";
+
+const { POST_LIST_START_IDX, POST_LIST_END_IDX } = process.env;
 
 const scrape = async (postUrl: string) => {
   const response = await gotScraping.get({
@@ -24,7 +27,10 @@ const getPostUrls = async () => {
     .map((_, el) => $(el).text())
     .toArray();
 
-  return urls;
+  // Split this array into multiple batches as the amount of test cases would overwhelm Vitest.
+  const start = POST_LIST_START_IDX ? Number(POST_LIST_START_IDX) : 0;
+  const end = POST_LIST_END_IDX ? Number(POST_LIST_END_IDX) : 100;
+  return urls.slice(start, end);
 };
 
 const postUrls = await getPostUrls();
