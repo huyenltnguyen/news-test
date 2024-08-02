@@ -14,7 +14,7 @@ const scrape = async (postUrl: string) => {
   return response;
 };
 
-describe.each(randomPosts)("%s - Random post", async (url) => {
+describe.each(randomPosts)("%s - Random post", (url) => {
   let response;
   let html;
   let $: ReturnType<typeof cheerio.load>;
