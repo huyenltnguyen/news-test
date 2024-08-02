@@ -11,6 +11,7 @@ const __dirname = import.meta.dirname;
  * - Visits each author page and query the author's post URLs
  * - Visits each post URL and pulls all metadata in the `head` tag
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getAllPostsData = async () => {
   const authorsJson = await readFile(
     path.resolve(__dirname, "../data-from-sitemap/authors.json"),

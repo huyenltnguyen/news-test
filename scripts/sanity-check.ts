@@ -1,4 +1,4 @@
-import { writeFile, readFile, readdir } from "fs/promises";
+import { readFile, readdir } from "fs/promises";
 import path from "path";
 
 const __dirname = import.meta.dirname;

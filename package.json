@@ -7,17 +7,23 @@
     "test": "vitest",
     "test:by-author": "pnpm run test --exclude __tests__/random-posts.test.ts --exclude __tests__/heading-one.test.ts",
     "test:random": "pnpm run test random-posts",
-    "test:heading-one": "NODE_OPTIONS=\"--max-old-space-size=10240\" pnpm run test heading-one"
+    "test:heading-one": "NODE_OPTIONS=\"--max-old-space-size=10240\" pnpm run test heading-one",
+    "lint": "eslint"
   },
   "devDependencies": {
+    "@eslint/js": "^9.8.0",
     "@playwright/test": "^1.45.3",
     "@types/node": "^20.14.12",
     "cheerio": "1.0.0-rc.12",
     "dotenv": "^16.4.5",
+    "eslint": "9.x",
+    "eslint-plugin-vitest": "^0.5.4",
+    "globals": "^15.9.0",
     "got-scraping": "^4.0.6",
     "playwright": "^1.45.3",
     "tsx": "^4.16.2",
     "typescript": "^5.5.4",
+    "typescript-eslint": "^8.0.0",
     "vitest": "^2.0.4"
   }
 }
