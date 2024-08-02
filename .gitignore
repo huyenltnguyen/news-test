@@ -133,5 +133,4 @@ dist
 /blob-report/
 /playwright/.cache/
 
-/storage
-data/sample.json
+__tests__/report/

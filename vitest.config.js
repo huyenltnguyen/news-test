@@ -5,5 +5,6 @@ export default defineConfig({
     include: ["__tests__/**/*.test.ts"],
     testTimeout: 60 * 1000,
     hookTimeout: 60 * 1000,
+    outputFile: "__tests__/report/report.json",
   },
 });
