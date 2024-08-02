@@ -56,6 +56,7 @@ export const getPostsDataByAuthor = async ({
   const response = await gotScraping.get({
     url: authorUrl,
   });
+
   const html = response.body;
 
   const $ = cheerio.load(html);

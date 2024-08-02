@@ -23,7 +23,13 @@ export const getExpectedData = async (
   return data[authorUrl];
 };
 
-// Change this value when testing posts by author
+export const GHOST_AUTHOR =
+  process.env.GHOST_AUTHOR ||
+  "https://www.freecodecamp.org/news/author/quincylarson";
+export const HASHNODE_AUTHOR =
+  process.env.HASHNODE_AUTHOR ||
+  "https://www.freecodecamp.org/news/author/quincy";
+
 export const AUTHOR =
   process.env.AUTHOR || "https://www.freecodecamp.org/news/author/quincy/";
 export const EXPECTED_POSTS_DATA = await getExpectedData(AUTHOR);

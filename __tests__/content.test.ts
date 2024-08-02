@@ -5,16 +5,16 @@ import { getPostsDataByAuthor } from "../utils";
 import { AUTHOR, EXPECTED_POSTS_DATA, EXPECTED_POST_URLS } from "../test-utils";
 import { PostsDataByAuthor } from "../types";
 
-const postsMetadataByAuthor = await getPostsDataByAuthor({
+const postsDataByAuthor = await getPostsDataByAuthor({
   authorUrl: AUTHOR,
   shouldWriteFile: false,
 });
 
-const postsMetadata = (postsMetadataByAuthor as PostsDataByAuthor)[AUTHOR];
+const postsData = (postsDataByAuthor as PostsDataByAuthor)[AUTHOR];
 
 describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
   const { html: expectedHtml } = EXPECTED_POSTS_DATA[url];
-  const { html } = postsMetadata[url];
+  const { html } = postsData[url];
 
   let $html: ReturnType<typeof cheerio.load>;
   let $expectedHtml: ReturnType<typeof cheerio.load>;

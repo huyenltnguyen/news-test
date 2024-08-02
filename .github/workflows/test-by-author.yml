@@ -6,6 +6,8 @@ on:
       - "main"
 env:
   AUTHOR: ${{ vars.AUTHOR }}
+  GHOST_AUTHOR: ${{ vars.GHOST_AUTHOR }}
+  HASHNODE_AUTHOR: ${{ vars.HASHNODE_AUTHOR }}
 
 jobs:
   test:
@@ -26,8 +28,8 @@ jobs:
           version: 9
           run_install: true
 
-      - name: Confirm author
-        run: echo "Author is $AUTHOR"
+      - name: Confirm env variables
+        run: echo "AUTHOR is $AUTHOR\nGHOST_AUTHOR is $GHOST_AUTHOR\nHASHNODE_AUTHOR is $HASHNODE_AUTHOR"
 
       - name: Run tests
         run: pnpm run test:by-author
