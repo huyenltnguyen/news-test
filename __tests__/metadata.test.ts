@@ -1,23 +1,17 @@
 import { expect, describe, it, beforeAll } from "vitest";
 import * as cheerio from "cheerio";
 
-import { getPostsDataByAuthor } from "../utils";
-import { AUTHOR, EXPECTED_POSTS_DATA, EXPECTED_POST_URLS } from "../test-utils";
-import { PostsDataByAuthor } from "../types";
+import { getTestData } from "../test-utils";
 
-const postsMetadataByAuthor = await getPostsDataByAuthor({
-  authorUrl: AUTHOR,
-  shouldWriteFile: false,
-});
-
-const postsMetadata = (postsMetadataByAuthor as PostsDataByAuthor)[AUTHOR];
+const { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA, EXPECTED_POST_URLS } =
+  await getTestData();
 
 // ------------------------------
 // Tests
 // ------------------------------
 describe.each(EXPECTED_POST_URLS)("%s - Post metadata", (url) => {
   const { html: expectedHtml } = EXPECTED_POSTS_DATA[url];
-  const { html } = postsMetadata[url];
+  const { html } = HASHNODE_POSTS_DATA[url];
 
   let $html: ReturnType<typeof cheerio.load>;
   let $expectedHtml: ReturnType<typeof cheerio.load>;

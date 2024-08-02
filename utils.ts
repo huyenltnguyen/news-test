@@ -56,6 +56,7 @@ export const getPostsDataByAuthor = async ({
   const response = await gotScraping.get({
     url: authorUrl,
   });
+
   const html = response.body;
 
   const $ = cheerio.load(html);
@@ -77,7 +78,7 @@ export const getPostsDataByAuthor = async ({
   const username = getUsername(authorUrl);
 
   if (!username) {
-    throw new Error("Failed to parse username");
+    throw new Error(`Failed to parse ${username}`);
   }
 
   // `postsMetadata` is an array of objects.

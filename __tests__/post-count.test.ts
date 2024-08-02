@@ -1,20 +1,15 @@
 import { expect, describe, it } from "vitest";
 
-import { getPostsDataByAuthor } from "../utils";
-import { AUTHOR, EXPECTED_POST_URLS } from "../test-utils";
-import { PostsDataByAuthor } from "../types";
+import { getTestData } from "../test-utils";
 
-const postsMetadataByAuthor = await getPostsDataByAuthor({
-  authorUrl: AUTHOR,
-  shouldWriteFile: false,
-});
+const { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA } = await getTestData();
 
-const postsMetadata = (postsMetadataByAuthor as PostsDataByAuthor)[AUTHOR];
+describe("Hashnode post count", () => {
+  it("should include the posts from the Ghost account", () => {
+    const ghostPosts = Object.keys(EXPECTED_POSTS_DATA);
+    const hashnodePosts = Object.keys(HASHNODE_POSTS_DATA);
 
-describe("Post count", () => {
-  it("should match the original post count", () => {
-    const postUrls = Object.keys(postsMetadata);
-
-    expect(postUrls).toEqual(EXPECTED_POST_URLS);
+    expect(hashnodePosts.length).toBeGreaterThanOrEqual(ghostPosts.length);
+    expect(hashnodePosts).toEqual(expect.arrayContaining(ghostPosts));
   });
 });

@@ -3,11 +3,19 @@ import path from "path";
 import "dotenv/config";
 
 import { type PostsDataByAuthor, type PostData } from "./types";
-import { getUsername } from "./utils";
+import { getPostsDataByAuthor, getUsername } from "./utils";
 
 const __dirname = import.meta.dirname;
 
-export const getExpectedData = async (
+export const GHOST_AUTHOR =
+  process.env.GHOST_AUTHOR ||
+  "https://www.freecodecamp.org/news/author/quincylarson";
+export const HASHNODE_AUTHOR =
+  process.env.HASHNODE_AUTHOR ||
+  "https://www.freecodecamp.org/news/author/quincy";
+
+// For Ghost account, find the posts from the archive
+const getExpectedData = async (
   authorUrl: string
 ): Promise<{ [postUrl: string]: PostData }> => {
   const username = getUsername(authorUrl);
@@ -23,11 +31,27 @@ export const getExpectedData = async (
   return data[authorUrl];
 };
 
-// Change this value when testing posts by author
-export const AUTHOR =
-  process.env.AUTHOR || "https://www.freecodecamp.org/news/author/quincy/";
-export const EXPECTED_POSTS_DATA = await getExpectedData(AUTHOR);
-export const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_DATA);
+// For Hashnode account, find the posts from /news
+const getHashnodePostsData = async () => {
+  const data = await getPostsDataByAuthor({
+    authorUrl: HASHNODE_AUTHOR,
+    shouldWriteFile: false,
+  });
+
+  return (data as PostsDataByAuthor)[HASHNODE_AUTHOR];
+};
+
+// Move these into a function so that unrelated tests don't need to `await` unnecessarily
+export const getTestData = async () => {
+  const [HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA] = await Promise.all([
+    getHashnodePostsData(),
+    getExpectedData(GHOST_AUTHOR),
+  ]);
+
+  const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_DATA);
+
+  return { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA, EXPECTED_POST_URLS };
+};
 
 const randomIndex = (max: number) => Math.floor(Math.random() * max);
 
