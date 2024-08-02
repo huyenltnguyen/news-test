@@ -1,11 +1,10 @@
 import { expect, describe, it, beforeAll } from "vitest";
 import * as cheerio from "cheerio";
 
-import {
-  HASHNODE_POSTS_DATA,
-  EXPECTED_POSTS_DATA,
-  EXPECTED_POST_URLS,
-} from "../test-utils";
+import { getTestData } from "../test-utils";
+
+const { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA, EXPECTED_POST_URLS } =
+  await getTestData();
 
 describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
   const { html: expectedHtml } = EXPECTED_POSTS_DATA[url];

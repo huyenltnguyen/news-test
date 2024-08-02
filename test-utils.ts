@@ -14,6 +14,7 @@ export const HASHNODE_AUTHOR =
   process.env.HASHNODE_AUTHOR ||
   "https://www.freecodecamp.org/news/author/quincy";
 
+// For Ghost account, find the posts from the archive
 const getExpectedData = async (
   authorUrl: string
 ): Promise<{ [postUrl: string]: PostData }> => {
@@ -30,6 +31,7 @@ const getExpectedData = async (
   return data[authorUrl];
 };
 
+// For Hashnode account, find the posts from /news
 const getHashnodePostsData = async () => {
   const data = await getPostsDataByAuthor({
     authorUrl: HASHNODE_AUTHOR,
@@ -39,12 +41,17 @@ const getHashnodePostsData = async () => {
   return (data as PostsDataByAuthor)[HASHNODE_AUTHOR];
 };
 
-// For Hashnode account, find the posts from /news
-export const HASHNODE_POSTS_DATA = await getHashnodePostsData();
+// Move these into a function so that unrelated tests don't need to `await` unnecessarily
+export const getTestData = async () => {
+  const [HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA] = await Promise.all([
+    getHashnodePostsData(),
+    getExpectedData(GHOST_AUTHOR),
+  ]);
 
-// For Ghost account, find the posts from the archive
-export const EXPECTED_POSTS_DATA = await getExpectedData(GHOST_AUTHOR);
-export const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_DATA);
+  const EXPECTED_POST_URLS = Object.keys(EXPECTED_POSTS_DATA);
+
+  return { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA, EXPECTED_POST_URLS };
+};
 
 const randomIndex = (max: number) => Math.floor(Math.random() * max);
 

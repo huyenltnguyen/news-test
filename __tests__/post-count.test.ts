@@ -1,6 +1,8 @@
 import { expect, describe, it } from "vitest";
 
-import { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA } from "../test-utils";
+import { getTestData } from "../test-utils";
+
+const { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA } = await getTestData();
 
 describe("Hashnode post count", () => {
   it("should include the posts from the Ghost account", () => {
