@@ -34,6 +34,11 @@ const getPostUrls = async () => {
 };
 
 const postUrls = await getPostUrls();
+// const postUrls = [
+//   "https://www.freecodecamp.org/news/introduction-to-linux/",
+//   "https://www.freecodecamp.org/news/how-two-friends-changed-careers-learned-to-code-and-built-a-startup-e40c0b060de8/",
+//   "https://www.freecodecamp.org/news/how-to-build-an-event-app-with-node-js/",
+// ];
 
 describe.each(postUrls)("%s - Post heading one", (url) => {
   let response;
