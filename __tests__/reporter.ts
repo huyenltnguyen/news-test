@@ -1,10 +1,11 @@
 import { File } from "vitest";
-import { DefaultReporter } from "vitest/reporters";
+import { JsonReporter } from "vitest/reporters";
 import * as cheerio from "cheerio";
-import { writeFile } from "fs/promises";
+import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 
 import { getPostData } from "../utils";
+import { existsSync } from "fs";
 
 interface Result {
   post: string;
@@ -15,7 +16,7 @@ const __dirname = import.meta.dirname;
 
 // This reporter is used only for the heading one test
 // Implementation reference: https://github.com/dotnetautor/vitest-bamboo-reporter/blob/main/src/bamboo-reporter.ts
-export default class MyDefaultReporter extends DefaultReporter {
+export default class MyDefaultReporter extends JsonReporter {
   async onFinished(files?: File[]): Promise<void> {
     const results: Array<Result> = [];
 
@@ -51,11 +52,15 @@ export default class MyDefaultReporter extends DefaultReporter {
       });
     }
 
+    if (!existsSync(path.resolve(__dirname, "./report"))) {
+      await mkdir(path.resolve(__dirname, "./report"));
+    }
+
     await writeFile(
       path.resolve(__dirname, "./report/report.json"),
       JSON.stringify(results)
     );
 
-    console.log("JSON report created.");
+    this.ctx.logger.log("Test results", results);
   }
 }

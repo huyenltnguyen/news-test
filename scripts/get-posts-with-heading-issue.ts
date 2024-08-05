@@ -29,8 +29,20 @@ const parseTestReport = async () => {
   return failedTests;
 };
 
+const parseCustomTestReport = async () => {
+  const json = await readFile(
+    path.resolve(__dirname, "../__tests__/report/report.json"),
+    { encoding: "utf8" }
+  );
+
+  const results: Array<{ author: string | null; post: string }> =
+    JSON.parse(json);
+
+  return results;
+};
+
 const writeFailedTestsToFile = async () => {
-  const failedTests = await parseTestReport();
+  const failedTests = await parseCustomTestReport();
 
   await writeFile(
     path.resolve(
