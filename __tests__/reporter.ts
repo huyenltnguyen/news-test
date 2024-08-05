@@ -14,6 +14,7 @@ interface Result {
 const __dirname = import.meta.dirname;
 
 // This reporter is used only for the heading one test
+// Implementation reference: https://github.com/dotnetautor/vitest-bamboo-reporter/blob/main/src/bamboo-reporter.ts
 export default class MyDefaultReporter extends DefaultReporter {
   async onFinished(files?: File[]): Promise<void> {
     const results: Array<Result> = [];
