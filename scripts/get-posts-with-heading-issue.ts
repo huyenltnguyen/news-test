@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "fs/promises";
+import { readFile, writeFile, appendFile } from "fs/promises";
 import path from "path";
 import { JsonTestResults } from "vitest/reporters";
 
@@ -45,3 +45,35 @@ const writeFailedTestsToFile = async () => {
 
 // --------- Execution ---------
 await writeFailedTestsToFile();
+
+// const files = [
+//   "../__tests__/report/posts-with-heading-issue-0-1000.json",
+//   "../__tests__/report/posts-with-heading-issue-1000-3000.json",
+//   "../__tests__/report/posts-with-heading-issue-3000-6000.json",
+//   "../__tests__/report/posts-with-heading-issue-6000-9000.json",
+//   "../__tests__/report/posts-with-heading-issue-9000-12000.json",
+// ];
+
+// const getAllTests = async () => {
+//   for (const file of files) {
+//     const json = await readFile(path.resolve(__dirname, file), {
+//       encoding: "utf8",
+//     });
+//     const tests = JSON.parse(json);
+
+//     for (const test of tests) {
+//       await appendFile(
+//         path.resolve(
+//           __dirname,
+//           "../__tests__/report/posts-with-heading-issue.md"
+//         ),
+//         `${test}
+//   `
+//       );
+//     }
+//   }
+
+//   console.log("Added failed tests to posts-with-heading-issue.md");
+// };
+
+// await getAllTests();
