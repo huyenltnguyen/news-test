@@ -18,3 +18,8 @@ export type PostData = { html: string };
 export type PostsDataByAuthor = {
   [authorUrl: string]: Record<string, PostData>;
 };
+
+export interface ReportResult {
+  post: string;
+  author: string | null;
+}

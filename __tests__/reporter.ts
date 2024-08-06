@@ -6,11 +6,7 @@ import path from "path";
 
 import { getPostData } from "../utils";
 import { existsSync } from "fs";
-
-interface Result {
-  post: string;
-  author: string | null;
-}
+import { type ReportResult } from "../types";
 
 const __dirname = import.meta.dirname;
 const REPORT_DIR = path.resolve(__dirname, "./report");
@@ -19,7 +15,7 @@ const REPORT_DIR = path.resolve(__dirname, "./report");
 // Implementation reference: https://github.com/dotnetautor/vitest-bamboo-reporter/blob/main/src/bamboo-reporter.ts
 export default class MyDefaultReporter extends JsonReporter {
   async onFinished(files?: File[]): Promise<void> {
-    const results: Array<Result> = [];
+    const results: Array<ReportResult> = [];
 
     const file = files?.find(({ name }) => name.includes("heading-one"));
 
@@ -47,9 +43,7 @@ export default class MyDefaultReporter extends JsonReporter {
 
       results.push({
         post: url,
-        author: authorPath
-          ? `https://www.freecodecamp.org/${authorPath}`
-          : null,
+        author: authorPath ? `https://www.freecodecamp.org${authorPath}` : null,
       });
     }
 

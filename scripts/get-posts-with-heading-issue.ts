@@ -1,91 +1,81 @@
-import { readFile, writeFile, appendFile } from "fs/promises";
+import { readFile, writeFile, appendFile, readdir, rm } from "fs/promises";
 import path from "path";
-import { JsonTestResults } from "vitest/reporters";
+import { type ReportResult } from "../types";
+import { existsSync } from "fs";
 
 const __dirname = import.meta.dirname;
+const REPORT_DIR = path.resolve(__dirname, "../__tests__/report");
 
-const parseTestReport = async () => {
-  const json = await readFile(
-    path.resolve(__dirname, "../__tests__/report/report.json"),
-    { encoding: "utf8" }
+const getTestsByAuthor = async () => {
+  const files = await readdir(REPORT_DIR);
+  const jsonFiles = files.filter(
+    (file) =>
+      file.startsWith("posts-with-heading-issue") && file.endsWith("json")
   );
+  const allTests: Array<ReportResult> = [];
 
-  const results: JsonTestResults = JSON.parse(json);
-
-  const failedTests: string[] = results.testResults[0].assertionResults.reduce(
-    (acc, curr) => {
-      if (curr.status !== "failed") {
-        return acc;
+  for (const jsonFile of jsonFiles) {
+    const json = await readFile(
+      path.resolve(__dirname, `${REPORT_DIR}/${jsonFile}`),
+      {
+        encoding: "utf8",
       }
+    );
+    const tests = JSON.parse(json);
 
-      const match = curr.fullName.match(/https.*\//);
-      acc.push(match ? match[0] : "");
+    allTests.push(...tests);
+  }
 
-      return acc;
-    },
-    [] as string[]
-  );
+  const testsByAuthor = allTests.reduce((acc, curr) => {
+    const post = curr.post;
+    const author = curr.author || "no-author-slug";
 
-  return failedTests;
+    if (!acc[author]) {
+      acc[author] = [post];
+    } else {
+      acc[author].push(post);
+    }
+
+    return acc;
+  }, {});
+
+  const testCount = Object.keys(testsByAuthor).reduce((acc, curr) => {
+    const count = testsByAuthor[curr].length;
+    acc += count;
+    return acc;
+  }, 0);
+
+  console.log("🚀 ~ testCount ~ testCount:", testCount);
+
+  return testsByAuthor;
 };
 
-const parseCustomTestReport = async () => {
-  const json = await readFile(
-    path.resolve(__dirname, "../__tests__/report/report.json"),
-    { encoding: "utf8" }
+const writeToFile = async () => {
+  const mdFile = path.resolve(
+    __dirname,
+    `${REPORT_DIR}/posts-with-heading-issue.md`
   );
+  const authors = await getTestsByAuthor();
 
-  const results: Array<{ author: string | null; post: string }> =
-    JSON.parse(json);
+  if (existsSync(mdFile)) {
+    await rm(mdFile);
+    await writeFile(mdFile, "");
+  }
 
-  return results;
-};
+  for (const author in authors) {
+    const posts = authors[author].map((post) => `${post}`).join("\n");
 
-const writeFailedTestsToFile = async () => {
-  const failedTests = await parseCustomTestReport();
+    await appendFile(
+      mdFile,
+      `${author}
+${posts}
 
-  await writeFile(
-    path.resolve(
-      __dirname,
-      "../__tests__/report/posts-with-heading-issue.json"
-    ),
-    JSON.stringify(failedTests)
-  );
+`
+    );
+  }
 
-  console.log("Added failed tests to posts-with-heading-issue.json");
+  console.log("Added failed tests to posts-with-heading-issue.md");
 };
 
 // --------- Execution ---------
-await writeFailedTestsToFile();
-
-// const files = [
-//   "../__tests__/report/posts-with-heading-issue-0-1000.json",
-//   "../__tests__/report/posts-with-heading-issue-1000-3000.json",
-//   "../__tests__/report/posts-with-heading-issue-3000-6000.json",
-//   "../__tests__/report/posts-with-heading-issue-6000-9000.json",
-//   "../__tests__/report/posts-with-heading-issue-9000-12000.json",
-// ];
-
-// const getAllTests = async () => {
-//   for (const file of files) {
-//     const json = await readFile(path.resolve(__dirname, file), {
-//       encoding: "utf8",
-//     });
-//     const tests = JSON.parse(json);
-
-//     for (const test of tests) {
-//       await appendFile(
-//         path.resolve(
-//           __dirname,
-//           "../__tests__/report/posts-with-heading-issue.md"
-//         ),
-//         `${test}
-//   `
-//       );
-//     }
-//   }
-
-//   console.log("Added failed tests to posts-with-heading-issue.md");
-// };
-
-// await getAllTests();
+await writeToFile();
