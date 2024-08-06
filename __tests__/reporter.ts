@@ -13,6 +13,7 @@ interface Result {
 }
 
 const __dirname = import.meta.dirname;
+const REPORT_DIR = path.resolve(__dirname, "./report");
 
 // This reporter is used only for the heading one test
 // Implementation reference: https://github.com/dotnetautor/vitest-bamboo-reporter/blob/main/src/bamboo-reporter.ts
@@ -52,8 +53,8 @@ export default class MyDefaultReporter extends JsonReporter {
       });
     }
 
-    if (!existsSync(path.resolve(__dirname, "./report"))) {
-      await mkdir(path.resolve(__dirname, "./report"));
+    if (!existsSync(REPORT_DIR)) {
+      await mkdir(REPORT_DIR);
     }
 
     await writeFile(
@@ -62,6 +63,6 @@ export default class MyDefaultReporter extends JsonReporter {
     );
 
     this.ctx.logger.log("Number of failed tests:", results.length);
-    this.ctx.logger.log("Test results", results);
+    this.ctx.logger.log("JSON report created.");
   }
 }

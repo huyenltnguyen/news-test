@@ -34,14 +34,10 @@ jobs:
       - name: Run tests
         run: pnpm run test:heading-one
 
-      - name: Report failed tests
-        if: failure()
-        run: pnpm run report:heading-one
-
       - name: Upload report
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: report-${{ vars.POST_LIST_START_IDX }}-${{ vars.POST_LIST_END_IDX }}
-          path: __tests__/report/posts-with-heading-issue.json
+          path: __tests__/report/report.json
           retention-days: 30
