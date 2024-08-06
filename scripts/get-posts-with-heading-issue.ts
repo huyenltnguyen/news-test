@@ -6,13 +6,13 @@ import { existsSync } from "fs";
 const __dirname = import.meta.dirname;
 const REPORT_DIR = path.resolve(__dirname, "../__tests__/report");
 
-const getTestsByAuthor = async () => {
+const getTestsByAuthor = async (): Promise<Record<string, ReportResult[]>> => {
   const files = await readdir(REPORT_DIR);
   const jsonFiles = files.filter(
     (file) =>
       file.startsWith("posts-with-heading-issue") && file.endsWith("json")
   );
-  const allTests: Array<ReportResult> = [];
+  const allTests: ReportResult[] = [];
 
   for (const jsonFile of jsonFiles) {
     const json = await readFile(
@@ -45,7 +45,7 @@ const getTestsByAuthor = async () => {
     return acc;
   }, 0);
 
-  console.log("🚀 ~ testCount ~ testCount:", testCount);
+  console.log("Test count:", testCount);
 
   return testsByAuthor;
 };
@@ -55,15 +55,20 @@ const writeToFile = async () => {
     __dirname,
     `${REPORT_DIR}/posts-with-heading-issue.md`
   );
-  const authors = await getTestsByAuthor();
+  const testsByAuthor = await getTestsByAuthor();
+
+  // Sort author username alphabetically
+  const authors = Object.keys(testsByAuthor).sort((author1, author2) => {
+    return author1.localeCompare(author2);
+  });
 
   if (existsSync(mdFile)) {
     await rm(mdFile);
     await writeFile(mdFile, "");
   }
 
-  for (const author in authors) {
-    const posts = authors[author].map((post) => `${post}`).join("\n");
+  for (const author of authors) {
+    const posts = testsByAuthor[author].map((post) => `${post}`).join("\n");
 
     await appendFile(
       mdFile,
