@@ -61,6 +61,7 @@ export default class MyDefaultReporter extends JsonReporter {
       JSON.stringify(results)
     );
 
+    this.ctx.logger.log("Number of failed tests:", results.length);
     this.ctx.logger.log("Test results", results);
   }
 }
