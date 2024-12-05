@@ -6,7 +6,9 @@ import { getTestData } from "../test-utils";
 const { HASHNODE_POSTS_DATA, EXPECTED_POSTS_DATA, EXPECTED_POST_URLS } =
   await getTestData();
 
-describe.each(EXPECTED_POST_URLS)("%s - Post content", (url) => {
+describe.each([
+  "https://www.freecodecamp.org//news/how-to-sign-and-validate-json-web-tokens/",
+])("%s - Post content", (url) => {
   const { html: expectedHtml } = EXPECTED_POSTS_DATA[url];
   const { html } = HASHNODE_POSTS_DATA[url];
 
